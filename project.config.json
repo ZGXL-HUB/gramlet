@@ -1,0 +1,15 @@
+{
+  "description": "语法作业生成 uni-app 微信小程序",
+  "miniprogramRoot": "dist/build/mp-weixin/",
+  "compileType": "miniprogram",
+  "setting": {
+    "useCompilerPlugins": ["typescript"],
+    "es6": true,
+    "minified": true,
+    "enhance": true
+  },
+  "appid": "wx0aabac4fe3b9cca7",
+  "projectname": "grammar-worksheet",
+  "libVersion": "3.3.4",
+  "condition": {}
+}

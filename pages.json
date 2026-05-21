@@ -1,0 +1,60 @@
+{
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^NavBar$": "@/components/NavBar/NavBar.vue",
+      "^StatusBar$": "@/components/StatusBar/StatusBar.vue",
+      "^ConfirmModal$": "@/components/ConfirmModal/ConfirmModal.vue",
+      "^Toast$": "@/components/Toast/Toast.vue",
+      "^Loading$": "@/components/Loading/Loading.vue",
+      "^Accordion$": "@/components/Accordion/Accordion.vue",
+      "^Tag$": "@/components/Tag/Tag.vue",
+      "^VariantModal$": "@/components/VariantModal/VariantModal.vue",
+      "^CountInputModal$": "@/components/CountInputModal/CountInputModal.vue",
+      "^SelectedPointCard$": "@/components/SelectedPointCard/SelectedPointCard.vue"
+    }
+  },
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "语法作业生成"
+      }
+    },
+    {
+      "path": "pages/recommend/recommend",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "系统推荐习题"
+      }
+    },
+    {
+      "path": "pages/topic/topic",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "专题习题"
+      }
+    },
+    {
+      "path": "pages/custom/custom",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "自选出题"
+      }
+    },
+    {
+      "path": "pages/worksheet/worksheet",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "学案生成"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "语法作业生成",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F5F6FA"
+  }
+}

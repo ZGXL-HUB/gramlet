@@ -1,0 +1,19 @@
+/* 全局 CSS 变量（所有组件统一引用） */
+/* 可点击元素按压反馈 */
+.tap-active:active {
+  opacity: 0.85;
+}
+
+page {
+  --primary: #1677ff;
+  --purple: #6c5ce7;
+  --green: #00b894;
+  --orange: #fd9644;
+  --red: #ff4757;
+  --card-radius-lg: 16px;
+  --card-radius-sm: 8px;
+  --modal-radius: 12px;
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-modal: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --transition: all 0.3s ease;
+}

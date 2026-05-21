@@ -1,0 +1,19 @@
+{
+  "name": "语法作业生成",
+  "appid": "__UNI__GRAMMAR",
+  "description": "高中英语语法作业生成小程序",
+  "versionName": "1.0.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "mp-weixin": {
+    "appid": "wx0aabac4fe3b9cca7",
+    "setting": {
+      "urlCheck": false,
+      "es6": true,
+      "minified": true
+    },
+    "usingComponents": true,
+    "cloud": true
+  },
+  "vueVersion": "3"
+}
