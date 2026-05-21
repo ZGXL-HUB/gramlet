@@ -193,6 +193,27 @@ export const useSelectionStore = defineStore('selection', {
       await this.supplementPoint(topicId)
     },
 
+    /** 推荐模式：同专题内直接替换知识点，不触发补抽 */
+    replaceRecommendPointInTopic(point) {
+      if (!point?.id || !point.topicId) return false
+      if (this.isPointSelected(point.id)) return true
+
+      const index = this.selectedPoints.findIndex((p) => p.topicId === point.topicId)
+      if (index === -1) return false
+
+      const current = this.selectedPoints[index]
+      this.selectedPoints.splice(index, 1, {
+        id: point.id,
+        name: point.name || getPointNameById(point.id),
+        count: current.count || 1,
+        topicId: point.topicId,
+        topicName: point.topicName || current.topicName || '',
+        difficulty: point.difficulty ?? current.difficulty ?? 2
+      })
+      this.syncToStorage()
+      return true
+    },
+
     restoreFromStorage() {
       const data = getStorageSync(STORAGE_KEY)
       if (!data) return

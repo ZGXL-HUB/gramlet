@@ -28,8 +28,14 @@ export const getAllTopics = (options = {}) => {
  */
 export const getExercises = (params, options = {}) => {
   if (!USE_MOCK) {
-    const { questions, random_order } = params
-    return cloud.callFunction('getExercisesByPoints', { questions, random_order }, options.showLoading !== false)
+    const { questions, random_order, variant_count } = params
+    const data = { questions, random_order }
+    if (variant_count !== undefined) data.variant_count = variant_count
+    return cloud.callFunction(
+      'getExercisesByPoints',
+      data,
+      options.showLoading !== false
+    )
   }
   return withApiGuard(() => mockApi.getExercises(params), {
     loadingText: '生成习题中...',

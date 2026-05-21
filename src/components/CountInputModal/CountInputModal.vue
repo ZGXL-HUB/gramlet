@@ -11,11 +11,11 @@
       />
       <text class="count-modal__hint">请输入 {{ min }}–{{ max }} 之间的题量</text>
       <view class="count-modal__actions">
-        <view class="count-modal__btn count-modal__btn--cancel" @click="$emit('cancel')">
+        <view class="count-modal__btn count-modal__btn--cancel" @tap="$emit('cancel')">
           取消
         </view>
-        <view class="count-modal__btn count-modal__btn--confirm" @click="onConfirm">
-          确定
+        <view class="count-modal__btn count-modal__btn--confirm" @tap="onConfirm">
+          确认
         </view>
       </view>
     </view>
@@ -45,7 +45,7 @@ watch(
 )
 
 const onInput = (e) => {
-  inputValue.value = e.detail.value.replace(/\D/g, '')
+  inputValue.value = String(e.detail.value || '').replace(/\D/g, '')
 }
 
 const onConfirm = () => {

@@ -16,8 +16,7 @@
       </view>
     </view>
 
-    <view class="home__feedback" @click="onFeedback">反馈</view>
-    <StatusBar @expand="onFeedback" />
+    <StatusBar />
   </view>
 </template>
 
@@ -27,7 +26,6 @@ import NavBar from '../../components/NavBar/NavBar.vue'
 import StatusBar from '../../components/StatusBar/StatusBar.vue'
 import { useSelectionStore } from '@/store/selection.js'
 import { removeStorageSync, STORAGE_KEY, purgeExpiredCacheIfNeeded } from '@/utils/storage.js'
-import { showToast } from '@/utils/toast.js'
 
 const store = useSelectionStore()
 
@@ -78,8 +76,6 @@ const onSelectMode = (mode) => {
   store.setMode(mode)
   uni.navigateTo({ url: card.path })
 }
-
-const onFeedback = () => showToast('功能开发中，敬请期待')
 </script>
 
 <style lang="scss" scoped>
@@ -138,16 +134,4 @@ const onFeedback = () => showToast('功能开发中，敬请期待')
   color: #999;
 }
 
-.home__feedback {
-  position: fixed;
-  right: 20px;
-  bottom: 72px;
-  z-index: 80;
-  padding: 10px 18px;
-  background: var(--primary);
-  color: #fff;
-  font-size: 14px;
-  border-radius: 999px;
-  box-shadow: var(--shadow-card);
-}
 </style>

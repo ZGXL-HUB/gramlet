@@ -1,13 +1,8 @@
 <template>
   <view class="custom-page">
-    <NavBar title="自选出题" :show-back="true" @back="onNavBack">
-      <template #right>
-        <view class="custom-page__switch">
-          <text class="custom-page__switch-label">乱序出题</text>
-          <switch :checked="store.randomOrder" color="#6c5ce7" @change="onRandomChange" />
-        </view>
-      </template>
-    </NavBar>
+    <NavBar title="自选出题" :show-back="true" @back="onNavBack" />
+
+    <RandomOrderBar :checked="store.randomOrder" @change="onRandomChange" />
 
     <view class="custom-page__selected">
       <view class="custom-page__selected-grid">
@@ -105,6 +100,7 @@ import NavBar from '../../components/NavBar/NavBar.vue'
 import Accordion from '../../components/Accordion/Accordion.vue'
 import ConfirmModal from '../../components/ConfirmModal/ConfirmModal.vue'
 import SelectedPointCard from '../../components/SelectedPointCard/SelectedPointCard.vue'
+import RandomOrderBar from '../../components/RandomOrderBar/RandomOrderBar.vue'
 import { useSelectionStore } from '@/store/selection.js'
 import { getAllTopics, getExercises } from '@/api/index.js'
 import { showToast } from '@/utils/toast.js'
@@ -169,8 +165,8 @@ const onNavBack = () => {
   uni.navigateBack()
 }
 
-const onRandomChange = (e) => {
-  store.setRandomOrder(e.detail.value)
+const onRandomChange = (value) => {
+  store.setRandomOrder(value)
 }
 
 const guard = (fn) => {
@@ -278,17 +274,6 @@ const onConfirm = () => {
 .custom-page {
   min-height: 100vh;
   padding-bottom: 140px;
-}
-
-.custom-page__switch {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.custom-page__switch-label {
-  font-size: 12px;
-  color: #666;
 }
 
 .custom-page__selected {

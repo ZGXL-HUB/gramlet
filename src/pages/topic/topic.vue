@@ -1,13 +1,8 @@
 <template>
   <view class="topic-page">
-    <NavBar title="专题习题" :show-back="true" @back="onNavBack">
-      <template #right>
-        <view class="topic-page__switch">
-          <text class="topic-page__switch-label">乱序出题</text>
-          <switch :checked="store.randomOrder" color="#6c5ce7" @change="onRandomChange" />
-        </view>
-      </template>
-    </NavBar>
+    <NavBar title="专题习题" :show-back="true" @back="onNavBack" />
+
+    <RandomOrderBar :checked="store.randomOrder" @change="onRandomChange" />
 
     <view class="topic-page__grid">
       <view
@@ -47,6 +42,7 @@ import { ref, computed, onMounted } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import NavBar from '../../components/NavBar/NavBar.vue'
 import CountInputModal from '../../components/CountInputModal/CountInputModal.vue'
+import RandomOrderBar from '../../components/RandomOrderBar/RandomOrderBar.vue'
 import { useSelectionStore } from '@/store/selection.js'
 import { getAllTopics, getExercises } from '@/api/index.js'
 import { distributeQuestions } from '@/utils/common.js'
@@ -57,6 +53,7 @@ const store = useSelectionStore()
 const topics = ref([])
 const countVisible = ref(false)
 const btnDisabled = ref(false)
+const countSubmitting = ref(false)
 const isFirstLoad = ref(true)
 
 const countMax = getCountInputMax('topic')
@@ -89,8 +86,8 @@ const onNavBack = () => {
   uni.navigateBack()
 }
 
-const onRandomChange = (e) => {
-  store.setRandomOrder(e.detail.value)
+const onRandomChange = (value) => {
+  store.setRandomOrder(value)
 }
 
 const onSelectTopic = (topic) => {
@@ -111,6 +108,7 @@ const guard = (fn) => {
 }
 
 const onConfirm = () => {
+  if (countVisible.value || countSubmitting.value) return
   guard(() => {
     if (!store.selectedTopic) {
       showToast('请先选择一个语法专题')
@@ -122,10 +120,16 @@ const onConfirm = () => {
 }
 
 const onCountConfirm = async (total) => {
+  if (countSubmitting.value) return
+  countSubmitting.value = true
   countVisible.value = false
-  if (!store.selectedTopic?.children?.length) return
+  if (!store.selectedTopic?.children?.length) {
+    countSubmitting.value = false
+    return
+  }
 
-  const distribution = distributeQuestions(total, store.selectedTopic.children)
+  const safeTotal = Math.max(1, Math.min(countMax, Number(total) || 1))
+  const distribution = distributeQuestions(safeTotal, store.selectedTopic.children)
   const questions = distribution.map((d) => ({
     point_id: d.id,
     count: d.count
@@ -141,6 +145,7 @@ const onCountConfirm = async (total) => {
     store.setExercises(res.data.exercises)
     uni.navigateTo({ url: '/pages/worksheet/worksheet' })
   }
+  countSubmitting.value = false
 }
 </script>
 
@@ -148,17 +153,6 @@ const onCountConfirm = async (total) => {
 .topic-page {
   min-height: 100vh;
   padding-bottom: 100px;
-}
-
-.topic-page__switch {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.topic-page__switch-label {
-  font-size: 12px;
-  color: #666;
 }
 
 .topic-page__grid {

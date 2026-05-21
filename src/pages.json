@@ -11,7 +11,8 @@
       "^Tag$": "@/components/Tag/Tag.vue",
       "^VariantModal$": "@/components/VariantModal/VariantModal.vue",
       "^CountInputModal$": "@/components/CountInputModal/CountInputModal.vue",
-      "^SelectedPointCard$": "@/components/SelectedPointCard/SelectedPointCard.vue"
+      "^SelectedPointCard$": "@/components/SelectedPointCard/SelectedPointCard.vue",
+      "^RandomOrderBar$": "@/components/RandomOrderBar/RandomOrderBar.vue"
     }
   },
   "pages": [

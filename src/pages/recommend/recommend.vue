@@ -1,17 +1,13 @@
 <template>
   <view class="recommend">
-    <NavBar title="系统推荐习题" :show-back="true" @back="onNavBack">
-      <template #right>
-        <view class="recommend__switch">
-          <text class="recommend__switch-label">乱序出题</text>
-          <switch
-            :checked="store.randomOrder"
-            color="#6c5ce7"
-            @change="onRandomChange"
-          />
-        </view>
-      </template>
-    </NavBar>
+    <NavBar title="系统推荐习题" :show-back="true" @back="onNavBack" />
+
+    <view class="recommend__notice">
+      <text class="recommend__notice-title">已为你推荐 10 个高频知识点</text>
+      <text class="recommend__notice-text">删除知识点将自动同专题补抽，想换知识点请直接点击切换</text>
+    </view>
+
+    <RandomOrderBar :checked="store.randomOrder" @change="onRandomChange" />
 
     <view class="recommend__tags">
       <Tag
@@ -94,6 +90,7 @@ import Tag from '../../components/Tag/Tag.vue'
 import Accordion from '../../components/Accordion/Accordion.vue'
 import ConfirmModal from '../../components/ConfirmModal/ConfirmModal.vue'
 import VariantModal from '../../components/VariantModal/VariantModal.vue'
+import RandomOrderBar from '../../components/RandomOrderBar/RandomOrderBar.vue'
 import { pointTree } from '@/config/points.js'
 import { useSelectionStore } from '@/store/selection.js'
 import { getExercises } from '@/api/index.js'
@@ -164,8 +161,8 @@ const onNavBack = () => {
   uni.navigateBack()
 }
 
-const onRandomChange = (e) => {
-  store.setRandomOrder(e.detail.value)
+const onRandomChange = (value) => {
+  store.setRandomOrder(value)
 }
 
 const onRemoveTag = async (pointId) => {
@@ -174,7 +171,7 @@ const onRemoveTag = async (pointId) => {
 
 const onTogglePoint = async (point) => {
   if (store.isPointSelected(point.id)) {
-    await store.deselectAndSupplement(point.id)
+    return
   } else if (store.selectedPoints.length < LIMITS.RECOMMEND_POINT_COUNT) {
     store.addPoint({
       id: point.id,
@@ -185,7 +182,7 @@ const onTogglePoint = async (point) => {
       count: 1
     })
   } else {
-    showToast('已选满10个知识点，请先取消一个')
+    store.replaceRecommendPointInTopic(point)
   }
 }
 
@@ -222,6 +219,7 @@ const onVariantConfirm = async () => {
 
   const res = await getExercises({
     mode: 'recommend',
+    variant_count: variant,
     random_order: store.randomOrder,
     questions: store.selectedPoints.map((p) => ({
       point_id: p.id,
@@ -242,21 +240,34 @@ const onVariantConfirm = async () => {
   padding-bottom: 140px;
 }
 
-.recommend__switch {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.recommend__switch-label {
-  font-size: 12px;
-  color: #666;
-}
-
 .recommend__tags {
-  padding: 12px 16px;
+  padding: 8px 16px 12px;
   display: flex;
   flex-wrap: wrap;
+}
+
+.recommend__notice {
+  margin: 12px 16px 0;
+  padding: 10px 12px;
+  border-radius: var(--card-radius-sm);
+  background: rgba(108, 92, 231, 0.1);
+  color: var(--purple);
+}
+
+.recommend__notice-title,
+.recommend__notice-text {
+  display: block;
+}
+
+.recommend__notice-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.recommend__notice-text {
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .recommend__topics {

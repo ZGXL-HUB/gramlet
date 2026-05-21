@@ -38,6 +38,7 @@ import NavBar from '../../components/NavBar/NavBar.vue'
 import { useSelectionStore } from '@/store/selection.js'
 import { showToast } from '@/utils/toast.js'
 import { LIMITS } from '@/utils/limits.js'
+import { formatQuestionForDisplay } from '@/utils/formatQuestion.js'
 
 const store = useSelectionStore()
 const btnDisabled = ref(false)
@@ -71,20 +72,21 @@ const usageBlock = computed(() => {
 })
 
 function buildExerciseBlock(ex, index, isTeacher) {
-  const head = '## 练习' + (index + 1) + '：' + ex.point_name + '\n'
+  const head = '练习' + (index + 1) + '：' + ex.point_name + '\n'
+  const questionLine = formatQuestionForDisplay(ex.question)
   if (isTeacher) {
     return (
       head +
-      '**题目**：' +
-      ex.question +
-      '\n**答案**：' +
+      '题目：' +
+      questionLine +
+      '\n答案：' +
       ex.answer +
-      '\n**解析**：' +
+      '\n解析：' +
       (ex.analysis || '') +
       '\n\n'
     )
   }
-  return head + ex.question + '\n\n'
+  return head + questionLine + '\n\n'
 }
 
 const visibleExercises = computed(() => {

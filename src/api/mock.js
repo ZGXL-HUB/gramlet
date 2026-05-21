@@ -8,6 +8,19 @@ const delay = (ms = 200) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5)
 
+const takeWithRepeat = (list, count, pointId) => {
+  if (list.length === 0 || count <= 0) return []
+  const result = []
+  for (let i = 0; i < count; i++) {
+    const source = list[i % list.length]
+    result.push({
+      ...source,
+      _id: i < list.length ? source._id : `${source._id}_repeat_${pointId}_${i}`
+    })
+  }
+  return result
+}
+
 /**
  * 随机抽取知识点（不同专题最多 1 个）
  * @param {number} count
@@ -153,7 +166,7 @@ export const getExercises = async (params = {}) => {
     }
 
     const shuffled = shuffle(pointExercises)
-    const selected = shuffled.slice(0, count).map(formatExercise)
+    const selected = takeWithRepeat(shuffled, count, point_id).map(formatExercise)
     allExercises.push(...selected)
   }
 

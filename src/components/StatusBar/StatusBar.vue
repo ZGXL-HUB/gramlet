@@ -2,7 +2,7 @@
   <view class="status-bar">
     <view class="status-bar__dot" />
     <text class="status-bar__text">已连接</text>
-    <view class="status-bar__expand" @click="$emit('expand')">
+    <view v-if="showExpand" class="status-bar__expand" @click="$emit('expand')">
       <text>{{ expandText }}</text>
     </view>
   </view>
@@ -10,7 +10,8 @@
 
 <script setup>
 defineProps({
-  expandText: { type: String, default: '展开' }
+  expandText: { type: String, default: '展开' },
+  showExpand: { type: Boolean, default: false }
 })
 
 defineEmits(['expand'])
